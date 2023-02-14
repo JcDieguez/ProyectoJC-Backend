@@ -10,7 +10,6 @@ import mongoose from 'mongoose';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const dbPassword = process.env.DB_PASSWORD;
 // const FileStore = storage(session);
 //store: new FileStore({ path: './sessions', ttl: 10, retries: 0 }),
 
