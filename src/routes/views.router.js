@@ -1,4 +1,5 @@
 import { Router } from "express";
+import passport from 'passport';
 
 const router = Router();
 
@@ -6,12 +7,13 @@ router.get('/register',(req,res)=>{
     res.render('register');
 })
 
-router.get('/login',(req,res)=>{
-    res.render('login');
-})
+router.get('/login', (req, res) => {
+  res.render('login');
+});
+
 
 router.get('/welcome', (req, res) => {
-  const userEmail = req.session.user.email;
+  const userEmail = req.session.user && req.session.user.email;
   const message = `¡Bienvenido, ${userEmail}!`;
 
   res.render('welcome', { message, email: userEmail });
@@ -27,5 +29,6 @@ router.post('/logout', (req, res) => {
     }
   });
 });
+
 
 export default router;
