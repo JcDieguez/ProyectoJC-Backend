@@ -1,7 +1,6 @@
 import userModel from "../../models/User.js";
 
 export default class Users {
-
     get = () =>{
         return userModel.find();
     }
@@ -10,7 +9,12 @@ export default class Users {
         return userModel.findOne(params);
     }
 
-    save = (user) =>{
-        return userModel.create(user);
+    save = async (user) =>{
+        try {
+            const createData = await userModel.create(user);
+            return { success: true, data: createData };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
     }
 }

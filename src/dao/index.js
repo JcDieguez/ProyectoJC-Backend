@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
 const persistence = "MONGO";
+
+dotenv.config(); // carga las variables de entorno de .env
 
 export let usersService;
 
 async function connectToMongoDB() {
   mongoose.set('strictQuery', false);
-  const connection = await mongoose.connect("mongodb+srv://juancruz:123@proyectojc.12yzmzn.mongodb.net/proyectoJS?retryWrites=true&w=majority");
+  const connection = await mongoose.connect(process.env.MONGO_URI);
   return connection;
 }
 

@@ -50,5 +50,6 @@ passport.deserializeUser(async (id, done) => {
 });
 
 export default function initializeStrategies() {
-  // ...
-}
+  passport.initialize();
+  passport.session();
+} 
