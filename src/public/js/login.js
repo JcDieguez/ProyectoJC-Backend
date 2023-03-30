@@ -20,6 +20,7 @@ form.addEventListener('submit', evt => {
     }
   }).then(data => {
     localStorage.setItem('authToken', data.token);
+    localStorage.setItem('user', data.user);
     window.location.href = '/welcome';
   }).catch(error => {
     errorElement.textContent = error.message;

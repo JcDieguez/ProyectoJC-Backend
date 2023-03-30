@@ -1,14 +1,15 @@
 import express from 'express';
 import session from 'express-session';
-import passport from 'passport';
 import viewRouter from './routes/views.router.js';
 import sessionRouter from './routes/sessions.router.js';
-import initializeStrategies from './config/passport.config.js';
+import {initializeStrategies} from '../src/config/passport.config.js'
 import __dirname from './utils.js';
 import handlebars from 'express-handlebars';
 import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
 import minimist from 'minimist';
+import editProfileRouter from './routes/editProfile.router.js';
+import passport from './config/passport.config.js';
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ const PORT = args.port || process.env.PORT || 8080;
 
 app.use(session({
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URL,
+    mongoUrl: process.env.MONGO_URI,
     ttl: 20
   }),
   secret: process.env.SESSION_SECRET,
@@ -35,13 +36,12 @@ app.set('view engine','handlebars');
 app.use(express.static(`${__dirname}/public`));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(editProfileRouter);
 
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-// inicializar passport strategies
-initializeStrategies();
+initializeStrategies(); // llamando a la funcion para inicializar las estrategias
 
 app.use('/', viewRouter);
 app.use('/api/sessions', sessionRouter);

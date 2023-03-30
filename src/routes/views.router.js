@@ -1,6 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express';
 import os from 'os';
 import path from 'path';
+import { renderEditProfile, updateProfile, getUserById } from '../controllers/user.controller.js';
+import User from '../models/User.js'; // Importamos el modelo de usuario
+
 const __dirname = path.resolve();
 const router = Router();
 
@@ -13,8 +16,8 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/welcome', (req, res) => {
-  const userEmail = req.session.user && req.session.user.email;
-  const message = `¡Bienvenido, ${userEmail}!`;
+  const userEmail = req.session.user.email;
+  const message = `¡Bienvenido, ${req.session.user.name}, ${req.session.user.lastName}!`;
 
   res.render('welcome', { message, email: userEmail });
 });
@@ -49,4 +52,14 @@ router.get('/info', (req, res) => {
   });
 });
 
+// Ruta para renderizar la vista de perfil
+router.get('/profile', renderEditProfile);
+
+// Ruta para procesar la actualización de perfil
+router.post('/profile', updateProfile);
+
+router.get('/users/:id', getUserById);
+
 export default router;
+
+
