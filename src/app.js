@@ -46,6 +46,15 @@ initializeStrategies(); // llamando a la funcion para inicializar las estrategia
 app.use('/', viewRouter);
 app.use('/api/sessions', sessionRouter);
 
+app.use((err, req, res, next) => {
+  if (err.status === 401) {
+    res.status(401).send('No autorizado');
+  } else {
+    console.error(err.stack);
+    res.status(500).send('Error interno del servidor');
+  }
+});
+
 
 //GENERAR NUMEROS RANDOMS:
 import randomsRouter from './routes/randoms.router.js';
