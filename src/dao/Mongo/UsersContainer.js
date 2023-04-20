@@ -1,37 +1,36 @@
-import userModel from "../../models/User.js";
+import { UserModel } from '../models/User.js';
 
-export default class Users {
-    get = () =>{
-        return userModel.find();
-    }
+export default class UsersContainer {
+  constructor() {
+    this.UserModel = UserModel;
+  }
 
-    getBy = (params) =>{
-        return userModel.findOne(params);
-    }
+  async getAllUsers() {
+    const users = await this.UserModel.find({});
+    return users;
+  }
 
-    save = async (user) =>{
-        try {
-            const createData = await userModel.create(user);
-            return { success: true, data: createData };
-        } catch (error) {
-            return { success: false, error: error.message };
-        }
-    }
+  async getUserById(id) {
+    const user = await this.UserModel.findById(id);
+    return user;
+  }
 
-    update = async (id, updateData) => {
-        try {
-            const user = await userModel.findById(id);
-            if (!user) {
-                return { success: false, error: 'User not found' };
-            }
-            user.name = updateData.name;
-            user.email = updateData.email;
-            user.bio = updateData.bio;
-            user.avatar = updateData.avatar;
-            await user.save();
-            return { success: true, data: user };
-        } catch (error) {
-            return { success: false, error: error.message };
-        }
-    }
-    }
+  async saveUser(user) {
+    const createdUser = await this.UserModel.create(user);
+    return createdUser;
+  }
+
+  async updateUser(id, user) {
+    const updatedUser = await this.UserModel.findByIdAndUpdate(
+      id,
+      { $set: user },
+      { new: true }
+    );
+    return updatedUser;
+  }
+
+  async deleteUser(id) {
+    const deletedUser = await this.UserModel.findByIdAndDelete(id);
+    return deletedUser;
+  }
+}

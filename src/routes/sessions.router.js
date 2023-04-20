@@ -1,17 +1,23 @@
 import multer from "multer";
 import path from "path";
 import { Router } from "express";
-import { usersService } from "../dao/index.js";
+import { userDAO } from "../dao/index.js";
 import { createHash, validatePassword } from "../utils.js";
 import passport from "passport";
 import jwt from "jsonwebtoken";
+import usersService  from "../services/UsersService.js";
+
 
 const router = Router();
 
 // configuración del middleware multer para manejar el archivo de imagen
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./uploads/avatars/");
+    const dir = './uploads/avatars/';
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
   },
   filename: (req, file, cb) => {
     cb(
@@ -68,18 +74,21 @@ router.post('/register', async (req, res) => {
   res.send({ status: "success", payload: result });
 });
 
-router.post('/login', passport.authenticate('local'), async (req, res) => {
-  console.log('/login')
-
-  const user = req.user;
-  const tokenizedUser = {
-    name: `${user.first_name} ${user.last_name}`,
-    role: user.role,
-    id: user._id
-  };
-  const token = jwt.sign(tokenizedUser, "Unaclaves3CREtaQueNadieVea", { expiresIn: "1d" });
-  res.send({ status: "success", token, user:user });
+router.post('/login', async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await usersService.getByEmail(email);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new Error('Invalid password');
+    }
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+    res.json({ token });
+  } catch (error) {
+    next(error);
+  }
 });
+
 
 router.get('/github', passport.authenticate('github'), (req, res) => { });
 
@@ -94,33 +103,34 @@ router.get('/githubcallback', passport.authenticate('github'), async (req, res) 
 });
 
 router.post('/logintoken', async (req, res) => {
-console.log('/logintoken')
-  const { email, password } = req.body;
-  const user = await usersService.getBy({ email });
-  if (!user) {
-    return res.status(400).send({ status: "error", error: "Credenciales inválidas" });
-  }
-  const isValidPassword = await validatePassword(password, user.password);
-  if (!isValidPassword) {
-    return res.status(400).send({ status: "error", error: "Contraseña incorrecta" });
-  }
-  const tokenizedUser = {
-    name: `${user.first_name} ${user.last_name}`,
-    role: user.role,
-    id: user._id
-  };
-
-  req.session.user = {
-    id: user._id,
-    email: user.email,
-    name: user.first_name,
-    lastName: user.last_name,
-    role: user.role
-  };
+  console.log('/logintoken')
+    const { email, password } = req.body;
+    const user = await usersService.getUserByEmail(email);
+    if (!user) {
+      return res.status(400).send({ status: "error", error: "Credenciales inválidas" });
+    }
+    const isValidPassword = await validatePassword(password, user.password);
+    if (!isValidPassword) {
+      return res.status(400).send({ status: "error", error: "Contraseña incorrecta" });
+    }
+    const tokenizedUser = {
+      name: `${user.first_name} ${user.last_name}`,
+      role: user.role,
+      id: user._id
+    };
   
-  const token = jwt.sign(tokenizedUser, process.env.JWT_SECRET, { expiresIn: "1d" });
-  res.send({ status: "success", token, user: user });
-});
+    req.session.user = {
+      id: user._id,
+      email: user.email,
+      name: user.first_name,
+      lastName: user.last_name,
+      role: user.role
+    };
+    
+    const token = jwt.sign(tokenizedUser, process.env.JWT_SECRET, { expiresIn: "1d" });
+    res.send({ status: "success", token, user: user });
+  });
+  
 
 router.get('/current', async (req, res) => {
   console.log('/current')

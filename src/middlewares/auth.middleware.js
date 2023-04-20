@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import { UserModel } from '../dao/models/User.js';
 
 export async function authMiddleware(req, res, next) {
   const authToken = req.headers.authorization;
@@ -10,7 +10,7 @@ export async function authMiddleware(req, res, next) {
 
   try {
     const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
+    const user = await UserModel.findById(decoded.id);
 
     if (!user) {
       return res.status(401).json({ error: 'Unauthorized' });

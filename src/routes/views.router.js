@@ -2,7 +2,7 @@ import { Router } from 'express';
 import os from 'os';
 import path from 'path';
 import { renderEditProfile, updateProfile, getUserById } from '../controllers/user.controller.js';
-import User from '../models/User.js'; // Importamos el modelo de usuario
+import Users from '../dao/Mongo/UsersContainer.js';
 
 const __dirname = path.resolve();
 const router = Router();

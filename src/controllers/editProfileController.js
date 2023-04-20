@@ -1,7 +1,13 @@
 import User from '../models/User.js';
 
-export const renderEditProfile = (req, res) => {
-  res.render('editProfile', { user: req.user });
+export const renderEditProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.session.user.id);
+    res.render('editProfile', { user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error al obtener el perfil del usuario');
+  }
 };
 
 export const updateProfile = async (req, res) => {
@@ -12,7 +18,7 @@ export const updateProfile = async (req, res) => {
       throw new Error('Debe proporcionar un nombre y un email');
     }
 
-    const user = await User.findOne({ _id: req.user._id });
+    const user = await User.findOne({ _id: req.session.user.id });
 
     if (!user) {
       throw new Error('No se encontró el usuario');

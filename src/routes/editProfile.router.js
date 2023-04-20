@@ -2,9 +2,10 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import { body, validationResult } from 'express-validator';
-import Users from '../dao/Mongo/UsersContainer.js';
 import { authMiddleware, ensureAuthenticated } from '../middlewares/auth.middleware.js';
 import passport from 'passport';
+import Users from '../services/UsersService.js';
+
 
 
 const users = new Users();
