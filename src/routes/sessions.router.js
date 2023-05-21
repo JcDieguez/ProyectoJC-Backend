@@ -5,8 +5,9 @@ import { userDAO } from "../dao/index.js";
 import { createHash, validatePassword } from "../utils.js";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-import usersService  from "../services/UsersService.js";
+import UsersService  from "../services/UsersService.js";
 
+const usersService= new UsersService();
 
 const router = Router();
 

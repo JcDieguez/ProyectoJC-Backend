@@ -1,9 +1,11 @@
 import bcrypt from 'bcrypt';
-import { userDAO } from '../dao/index.js';
+import { MongoUserDAO } from '../dao/Mongo/MongoUserDAO';
 
+
+const userDAO = new MongoUserDAO();
 export default class UsersService {
   async authenticateUser(username, password) {
-    const user = await userDAO.findByUsername(username);
+    const user = await userDAO.getUserByUsername(username);
     if (!user) {
       throw new Error('User not found');
     }
@@ -15,7 +17,7 @@ export default class UsersService {
   }
 
   async registerUser(username, password) {
-    const existingUser = await userDAO.findByUsername(username);
+    const existingUser = await userDAO.getUserByUsername(username);
     if (existingUser) {
       throw new Error('Username already taken');
     }
@@ -25,7 +27,7 @@ export default class UsersService {
     return newUser;
   }
 
-  async getBy(field, value) {
+ /* async getBy(field, value) {
     const user = await userDAO.findByField(field, value);
     if (!user) {
       throw new Error('User not found');
@@ -33,11 +35,13 @@ export default class UsersService {
     return user;
   }
   
-  async getUserByEmail(email) {
+   async getUserByEmail(email) {
     const user = await userDAO.findByEmail(email);
     if (!user) {
       throw new Error('User not found');
     }
     return user;
   }
+
+  */
 }
