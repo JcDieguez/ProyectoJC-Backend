@@ -1,15 +1,5 @@
 import User from '../models/User.js'; // Importamos el modelo de usuario
 
-export const renderEditProfile = async (req, res) => {
-  try {
-    const userId = req.session.user.id;
-    const user = await User.findById(userId);
-    res.render('edit-profile', { user }); // Renderizamos la vista con los datos del usuario
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error al obtener el perfil del usuario');
-  }
-};
 
 export const getUserById = async (req, res) => {
   const userId = req.params.id; // Obtener el ID del usuario desde los parámetros de la solicitud

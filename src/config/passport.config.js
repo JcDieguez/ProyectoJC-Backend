@@ -26,8 +26,6 @@ import { getUserById } from '../controllers/user.controller.js';
   
   passport.use(new JwtStrategy(options, async( jwtPayload, done) => {
     try {
-      console.log(jwtPayload)
-      console.log('yes bitch')
       const user = await getUserById(jwtPayload.sub);
       if (user) {
         return done(null, user);

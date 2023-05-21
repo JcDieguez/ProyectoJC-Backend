@@ -6,7 +6,7 @@ form.addEventListener('submit', evt => {
   const data = new FormData(form);
   const obj = {};
   data.forEach((value, key) => obj[key] = value);
-  fetch('/api/sessions/logintoken', {
+  fetch('/api/sessions/login', {
     method: 'POST',
     body: JSON.stringify(obj),
     headers: {
@@ -21,7 +21,7 @@ form.addEventListener('submit', evt => {
   }).then(data => {
     localStorage.setItem('authToken', data.token);
     localStorage.setItem('user', data.user);
-    window.location.href = '/welcome';
+    window.location.href = '/home';
   }).catch(error => {
     errorElement.textContent = error.message;
   });

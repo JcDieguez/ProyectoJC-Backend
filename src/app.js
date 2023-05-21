@@ -2,13 +2,16 @@ import express from 'express';
 import session from 'express-session';
 import viewRouter from './routes/views.router.js';
 import sessionRouter from './routes/sessions.router.js';
-import {initializeStrategies} from '../src/config/passport.config.js'
+import productRouter from './routes/product.router.js';
+import userRouter from './routes/user.router.js';
+import cookieParser from 'cookie-parser';
+import  { initializeStrategies } from '../src/config/passport.config.js'
 import __dirname from './utils.js';
 import handlebars from 'express-handlebars';
 import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
 import minimist from 'minimist';
-import editProfileRouter from './routes/editProfile.router.js';
+//import editProfileRouter from './routes/editProfile.router.js';
 import passport from './config/passport.config.js';
 
 dotenv.config();
@@ -36,7 +39,9 @@ app.set('view engine','handlebars');
 app.use(express.static(`${__dirname}/public`));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(editProfileRouter);
+//app.use(editProfileRouter);
+
+app.use(cookieParser());
 
 
 app.use(passport.initialize());
@@ -45,6 +50,8 @@ initializeStrategies(); // llamando a la funcion para inicializar las estrategia
 
 app.use('/', viewRouter);
 app.use('/api/sessions', sessionRouter);
+app.use('/api/product', productRouter );
+app.use('/api/user', userRouter );
 
 app.use((err, req, res, next) => {
   if (err.status === 401) {
@@ -55,9 +62,5 @@ app.use((err, req, res, next) => {
   }
 });
 
-
-//GENERAR NUMEROS RANDOMS:
-import randomsRouter from './routes/randoms.router.js';
-app.use('/api/randoms', randomsRouter);
 
 app.listen(PORT, () => console.log(`App running on port ${PORT}`));
