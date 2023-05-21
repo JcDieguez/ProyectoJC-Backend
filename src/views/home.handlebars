@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="../public/css/home.css">
+
 <div>
     {{#if products}}
     <h1>Últimos productos agregados</h1>
@@ -6,7 +8,7 @@
         <div class="productCard">
             <p>{{this.title}}</p>
             <p>{{this.price}}</p>
-            <img src={{this.image}}>
+            <img class="productCardimg" src={{this.image}}>
             {{#if this.isValidToAdd}}
                  <a href="http://localhost:8080/api/cart/product/{{this._id}}"><button>Agregar al carrito</button></a>
             {{else}}

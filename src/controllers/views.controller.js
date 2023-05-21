@@ -22,7 +22,7 @@ const cargaProductos = (req, res) => {
 
 const home = async (req, res) => {
   const page = req.query.page||1;
-  const cartId = req.session.user.cart;
+  const cartId = req.user.cart;
   const pagination = await productService.getProducts({},page);
   let products = pagination.docs;
   const cart = await cartService.getCartById(cartId);

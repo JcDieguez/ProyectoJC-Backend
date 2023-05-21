@@ -4,7 +4,7 @@
     justify-content: space-evenly;
 }
 
-.videogameCard {
+.productCard {
     width:250px;
     height:350px;
     border-radius: 10px;
@@ -12,8 +12,7 @@
     text-align: center;
 }
 
-.videogameCard > img {
-    width:100%;
-    height:50%;
-    object-fit: fill;
+.productCardimg {
+    width:30mm !important;
+    height:20mm !important;
 }
