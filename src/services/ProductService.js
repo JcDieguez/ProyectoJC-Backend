@@ -13,4 +13,10 @@ export default class ProductService {
         return productDAO.getProducts(params,page);
     }
 
+
+    getProductById = (id) =>{
+        return productDAO.getProductById(id);
+    }
+    
+
 }

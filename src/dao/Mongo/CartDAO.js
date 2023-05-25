@@ -9,8 +9,8 @@ export default class CartDAO {
         return cartModel.findOne({_id:id}).lean();
     }
 
-    createCart = () =>{
-        return cartModel.create({products:[]});
+    createCart = (cart) =>{
+        return cartModel.create(cart);
     }
 
     updateCart = (id,cart) =>{

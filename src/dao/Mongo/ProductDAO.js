@@ -15,4 +15,8 @@ export default class ProductDAO {
         return productModel.paginate(params,{page,limit:2,lean:true});
     }
 
+    getProductById = (id) =>{
+        return productModel.findById(id);
+    }
+    
 }

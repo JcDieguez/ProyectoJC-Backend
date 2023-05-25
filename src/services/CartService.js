@@ -8,4 +8,12 @@ export default class CartService {
     getCartById = (id) => {
         return cartDAO.getCartById(id);
     }
+
+    updateCart(id, data) {
+        return cartDAO.updateCart(id, data);
+    }
+
+    createCart(cart){
+        return cartDAO.createCart(cart);
+    }
 }

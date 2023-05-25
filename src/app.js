@@ -4,6 +4,7 @@ import viewRouter from './routes/views.router.js';
 import sessionRouter from './routes/sessions.router.js';
 import productRouter from './routes/product.router.js';
 import userRouter from './routes/user.router.js';
+import cartRouter from './routes/cart.router.js';
 import cookieParser from 'cookie-parser';
 import  { initializeStrategies } from '../src/config/passport.config.js'
 import __dirname from './utils.js';
@@ -52,6 +53,8 @@ app.use('/', viewRouter);
 app.use('/api/sessions', sessionRouter);
 app.use('/api/product', productRouter );
 app.use('/api/user', userRouter );
+app.use('/api/cart',cartRouter);
+
 
 app.use((err, req, res, next) => {
   if (err.status === 401) {

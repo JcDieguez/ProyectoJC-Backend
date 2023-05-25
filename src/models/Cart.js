@@ -3,36 +3,16 @@ import mongoose from "mongoose";
 const collection = 'Carts';
 
 const schema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        required: true
-    },
-    time: {
-        type: String,
-        required: true
-    },
-    deliveryAddress: {
-        type: String,
-        required: true
-    },
-    products: [
+    products:[
         {
-            _id: {
+            _id:{
                 type: mongoose.SchemaTypes.ObjectId,
-                ref: 'Products'
-            },
-            quantity: {
-                type: Number,
-                required: true
+                ref:'Products'
             }
         }
     ]
-});
+})
 
-const cartModel = mongoose.model(collection, schema);
+const cartModel = mongoose.model(collection,schema);
 
 export default cartModel;

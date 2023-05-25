@@ -1,9 +1,12 @@
-import UserDAO from '../dao/Mongo/UserDAO.js'
+import UserDAO from '../dao/Mongo/UserDAO.js';
+import CartService from '../services/CartService.js';
 import { validatePassword } from '../utils.js';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js'
+import Cart from '../models/Cart.js'
+
 import config from '../config/config.js';
 
+  
    
     /* router.get('/github', passport.authenticate('github'), (req, res) => { });
     
@@ -18,6 +21,7 @@ import config from '../config/config.js';
     });
     */
    // 
+   const cartService = new CartService()
    const userDAO = new UserDAO();
    const register =  async (req, res) => {
      const { first_name, last_name, email, password } = req.body;
@@ -49,8 +53,10 @@ import config from '../config/config.js';
         if (!isValidPassword) {
           return res.status(400).send({ status: "error", error: "Contraseña incorrecta" });
         }
+        user.cart = new Cart();
+        cartService.createCart(user.cart);
         const userToken = {
-          cart: user.cart,
+            cart: user.cart,
             name:`${user.first_name} ${user.last_name}`,
             role:user.role,
             id:user._id,

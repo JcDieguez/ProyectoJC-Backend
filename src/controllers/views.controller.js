@@ -40,6 +40,18 @@ const home = async (req, res) => {
   res.render('home',{products,css:'home', paginationData});
 };
 
+const cart = async (req, res) => {
+  const cart = req.user.cart;
+  const name = req.user.name;
+  const productos = cart.products?.map((product) => product._id);
+  res.render('cart', {
+    productos,
+    name
+  });
+};
+
+
+
 /* router.post('/logout', (req, res) => {
    req.session.destroy(err => {
      if (err) {
@@ -54,10 +66,13 @@ const home = async (req, res) => {
 
 
 
+
+
 export default {
   login,
   profile,
   register,
   cargaProductos,
-  home
+  home,
+  cart
 }
