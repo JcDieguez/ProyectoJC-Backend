@@ -4,6 +4,7 @@ import UserDAO from '../dao/Mongo/UserDAO.js'
 
 const userDAO = new UserDAO();
 export default class UsersService {
+
   async authenticateUser(username, password) {
     const user = await userDAO.getBy(username);
     if (!user) {
@@ -16,15 +17,8 @@ export default class UsersService {
     return user;
   }
 
-  async registerUser(username, password) {
-    const existingUser = await userDAO.getBy(username);
-    if (existingUser) {
-      throw new Error('Username already taken');
-    }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = { username, password: hashedPassword };
-    await userDAO.create(newUser);
-    return newUser;
+  async save(user){
+   await userDAO.save(user);
   }
 
   async getUserBy(username){

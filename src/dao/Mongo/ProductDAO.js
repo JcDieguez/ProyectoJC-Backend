@@ -12,11 +12,20 @@ export default class ProductDAO {
     }
 
     getProducts = (params,page) => {
-        return productModel.paginate(params,{page,limit:2,lean:true});
+        return productModel.paginate(params,{page,limit:4,lean:true});
+    }
+
+    getProductsAll = () => {
+        return productModel.find({});
+
     }
 
     getProductById = (id) =>{
         return productModel.findById(id);
     }
     
+     getProductsByCategoria = (category) => {
+        return productModel.findOne({ category: category });
+      };
+      
 }

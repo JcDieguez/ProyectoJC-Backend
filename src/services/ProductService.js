@@ -13,9 +13,16 @@ export default class ProductService {
         return productDAO.getProducts(params,page);
     }
 
+    getProductsAll = () =>{
+        return productDAO.getProductsAll();
+    }
 
     getProductById = (id) =>{
         return productDAO.getProductById(id);
+    }
+
+     getProductsByCategoria = async (category) => {
+        return await productDAO.getProductsByCategoria(category);
     }
     
 

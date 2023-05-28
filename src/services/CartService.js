@@ -5,8 +5,8 @@ export default class CartService {
     }
 
 
-    getCartById = (id) => {
-        return cartDAO.getCartById(id);
+    getCartById = (id, options={}) => {
+        return cartDAO.getCartById(id, options);
     }
 
     updateCart(id, data) {

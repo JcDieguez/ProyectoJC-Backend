@@ -3,6 +3,14 @@
 <div>
     {{#if products}}
     <h1 class="titulo">Últimos productos agregados</h1>
+
+<select id="categorySelect" onchange="filterByCategory(this.value)">
+  <option value ="">Seleccione una categoría</option>
+  {{#each categorys}}
+    <option value="{{this}}">{{this}}</option>
+  {{/each}}
+</select>
+
     <div class="container">
         {{#each products}}
         <div class="productCard">
@@ -30,3 +38,4 @@
     <h1>No hay productos disponibles</h1>
     {{/if}}
 </div>
+<script src="/js/home.js"></script>

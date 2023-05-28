@@ -9,5 +9,4 @@ form.addEventListener('submit',async evt=>{
         body:data
     })
     const result = await response.json();
-    console.log(result);
 })

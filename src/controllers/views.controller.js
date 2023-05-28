@@ -24,6 +24,7 @@ const home = async (req, res) => {
   const page = req.query.page||1;
   const cartId = req.user.cart;
   const pagination = await productService.getProducts({},page);
+  const categorys = [...new Set((await productService.getProductsAll()).map((product) => product.category))];
   let products = pagination.docs;
   const cart = await cartService.getCartById(cartId);
   products = products.map(product =>{
@@ -37,13 +38,14 @@ const home = async (req, res) => {
       prevPage: pagination.prevPage,
       page: pagination.page
   }
-  res.render('home',{products,css:'home', paginationData});
+  res.render('home',{products,categorys,css:'home', paginationData});
 };
 
 const cart = async (req, res) => {
-  const cart = req.user.cart;
+  const cart = await cartService.getCartById(req.user.cart._id,{populate:true});
   const name = req.user.name;
   const productos = cart.products?.map((product) => product._id);
+ 
   res.render('cart', {
     productos,
     name

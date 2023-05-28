@@ -1,6 +1,8 @@
 import ProductService from '../services/ProductService.js'
+import CartService from '../services/CartService.js'
 
 const productService = new ProductService();
+const cartService = new CartService();
 
 const cargaProductos = async(req,res)=>{
     const file = req.file;
@@ -19,6 +21,22 @@ const cargaProductos = async(req,res)=>{
 }
 
 
+const productosFiltrados = async(req,res) =>{
+    const category = req.params.category; 
+    const products = await  productService.getProductsByCategoria(category);
+    const categorys = [...new Set((await productService.getProductsAll()).map((product) => product.category))];
+    console.log(req.user);
+    const cart = await cartService.getCartById(req.user.cart._id);
+    products = products.map(product =>{
+        const exists = cart?.products.some(v=>v._id.toString()===product._id.toString())
+        return {...product,isValidToAdd:!exists}
+    })
+   
+    res.render('home',{products,categorys,css:'home'});
+
+}
+
 export default {
-    cargaProductos
+    cargaProductos,
+    productosFiltrados
 }
