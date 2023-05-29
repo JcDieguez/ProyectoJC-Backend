@@ -17,7 +17,5 @@ export default class CartService {
     return cartDAO.createCart(cart);
   }
 
-  deleteProductFromCart(cartId, productId) {
-    return cartDAO.deleteProductFromCart(cartId, productId);
-  }
+
 }

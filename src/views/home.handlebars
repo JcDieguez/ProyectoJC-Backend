@@ -24,10 +24,11 @@
     {{#each products}}
     <div class="productCard" style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
       <p style="font-weight: bold; margin-bottom: 5px;">{{this.title}}</p>
-      <p style="color: rgb(2, 4, 154); margin-bottom: 5px;">$ {{this.price}}</p>
+      <p style="color: rgb(2, 4, 154); margin-bottom: 5px;">$ {{this.isAdmin}}</p>
       <p style="margin-bottom: 5px;">{{this.description}}</p>
       <img class="productCardImg" src={{this.image}} style="max-width: 200px; max-height: 200px; margin-bottom: 10px;">
-      {{#if isAdmin}}
+      
+      {{#if true}}
         <!-- Botón de eliminar producto para el usuario ADMIN -->
         <button class="delete-button" data-product-id="{{this._id}}">Eliminar</button>
       {{/if}}

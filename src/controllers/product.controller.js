@@ -52,6 +52,6 @@ const deleteProduct = async (req, res) => {
   export default {
     cargaProductos,
     productosFiltrados,
-    deleteProduct // Agrega esta línea
+    deleteProduct
   };
   

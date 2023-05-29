@@ -44,7 +44,9 @@ const home = async (req, res) => {
        prevPage: pagination.prevPage,
        page: pagination.page
    }
-  res.render('home',{products,categorys,css:'home', paginationData});
+   let isAdmin = req.user.role.toString().toLowerCase() === "admin";
+ 
+  res.render('home',{products,categorys,isAdmin:isAdmin,css:'home', paginationData});
 };
 
 const cart = async (req, res) => {

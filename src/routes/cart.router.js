@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/product/:productId', executePolicies(["USER"]), cartController.insertProductToCart);
 router.post('/purchase',executePolicies(['USER']),cartController.purchase)
-router.delete('/cart/:productId', executePolicies(["USER"]), cartController.deleteProductFromCart);
+router.delete('/:productId', executePolicies(["USER"]), cartController.deleteProductFromCart);
 
 
 

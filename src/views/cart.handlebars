@@ -5,7 +5,7 @@
   <div style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
     <p style="font-weight: bold; margin-bottom: 5px;">Producto: {{this.title}}</p>
     <p style="color: blue; margin-bottom: 5px;">$ {{this.price}}</p>
-    <button class="delete-button" data-product-id="{{product._id}}">Eliminar</button>
+    <button class="delete-button" data-product-id="{{this._id}}">Eliminar</button>
   </div>
   {{/each}}
   <button id="purchaseButton"

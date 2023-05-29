@@ -16,11 +16,5 @@ export default class CartDAO {
     return cartModel.findByIdAndUpdate(id, { $set: cart });
   };
 
-  deleteProductFromCart = (cartId, productId) => {
-    return cartModel.findByIdAndUpdate(
-      cartId,
-      { $pull: { products: { _id: productId } } },
-      { new: true }
-    );
-  };
+ 
 }

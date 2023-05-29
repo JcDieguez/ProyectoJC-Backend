@@ -94,8 +94,7 @@ const deleteProductFromCart = async (req, res) => {
   const userId = req.user.id; // Suponiendo que tienes un middleware que verifica la autenticación y agrega la propiedad "user" al objeto "req"
   try {
     // Buscar el carrito del usuario
-    const cart = await cartService.getCartById(userId); // Utilizar el servicio de carrito para obtener el carrito por el ID del usuario
-
+    const cart = await cartService.getCartById(req.user.cart._id); // Utilizar el servicio de carrito para obtener el carrito por el ID del usuario
     // Verificar si el producto está en el carrito
     const productIndex = cart.products.findIndex(product => product._id.toString() === productId);
     if (productIndex === -1) {
