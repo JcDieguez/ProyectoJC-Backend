@@ -1,5 +1,4 @@
 import CartService from "../services/CartService.js";
-import UserService from "../services/UserService.js";
 import TicketService from "../services/TicketServices.js";
 import HistoriesService from "../services/HistoriesService.js";
 import {transporter} from "../services/MessageService.js";
@@ -54,7 +53,7 @@ const purchase = async(req,res) =>{
   const event = {
       event:'Purchase',
       date: DateTime.now().toISO(),
-      description:`Hizo una compra de ${populatedCart.products.length>1?"Multiples juegos":"un juego"}`
+      description:`Hizo una compra de ${populatedCart.products.length>1?"Multiples productos":"un producto"}`
   }
   if(!history){
       await historiesService.createHistory({user:req.user.id,events:[event]})
@@ -86,13 +85,40 @@ const purchase = async(req,res) =>{
     </div>
     `,
 })
-  res.send({status:"success",message:"Videojuegos agregados a la librería"});
-  //llamar a nodemailer o servicio de mail de preferencia y enviar el ticket de compra.
+  res.send({status:"success",message:"Productos agregados"});
 }
+
+
+const deleteProductFromCart = async (req, res) => {
+  const productId = req.params.productId;
+  const userId = req.user.id; // Suponiendo que tienes un middleware que verifica la autenticación y agrega la propiedad "user" al objeto "req"
+  try {
+    // Buscar el carrito del usuario
+    const cart = await cartService.getCartById(userId); // Utilizar el servicio de carrito para obtener el carrito por el ID del usuario
+
+    // Verificar si el producto está en el carrito
+    const productIndex = cart.products.findIndex(product => product._id.toString() === productId);
+    if (productIndex === -1) {
+      return res.status(404).json({ message: 'El producto no se encuentra en el carrito' });
+    }
+
+    // Eliminar el producto del carrito
+    cart.products.splice(productIndex, 1);
+
+    // Guardar los cambios en el carrito
+    await cartService.updateCart(cart._id, { products: cart.products });
+
+    res.json({ message: 'Producto eliminado del carrito exitosamente' });
+  } catch (error) {
+    console.error('Error al eliminar el producto del carrito', error);
+    res.status(500).json({ message: 'Ocurrió un error al eliminar el producto del carrito' });
+  }
+};
 
 
 export default {
   insertProductToCart,
-  purchase
+  purchase,
+  deleteProductFromCart
 };
 

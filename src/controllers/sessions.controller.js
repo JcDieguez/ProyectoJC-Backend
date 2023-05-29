@@ -62,8 +62,20 @@ import config from '../config/config.js';
     res.send("Algo salió mal")
 }
 
-  export default {
-    login,
-    loginFail,
-    register
-}
+const logout = (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.log(err);
+      res.status(500).send('Error al cerrar sesión');
+    } else {
+      res.redirect('/login');
+    }
+  });
+};
+
+export default {
+  login,
+  loginFail,
+  register,
+  logout
+};

@@ -23,20 +23,35 @@ const cargaProductos = async(req,res)=>{
 
 const productosFiltrados = async(req,res) =>{
     const category = req.params.category; 
-    const cartID = req.params.cartID;
+    const paramsHeader = req.headers['parametros'];
+    const cartID = JSON.parse(paramsHeader)
     var products = await  productService.getProductsByCategoria(category);
     const categorys = [...new Set((await productService.getProductsAll()).map((product) => product.category))];
     const cart = await cartService.getCartById(cartID);
+    console.log(products)
     products = products.map(product =>{
-        const exists = cart?.products.some(v=>v._id.toString()===product._id.toString())
+        const exists = cart?.products.some(p=>p._id.toString()===product._id.toString())
         return {...product,isValidToAdd:!exists}
     })
-   
-    res.render('homeFiltrados',{products,categorys,css:'home'});
+   console.log(products)
+    res.send({products:products,categorys:categorys});
 
 }
 
-export default {
+const deleteProduct = async (req, res) => {
+    const productId = req.params.productId;
+  
+    try {
+      const result = await productService.eliminarProducto(productId);
+      res.send({ status: "success", message: "Product deleted successfully" });
+    } catch (error) {
+      res.status(500).send({ status: "error", error: "Failed to delete product" });
+    }
+  };
+  
+  export default {
     cargaProductos,
-    productosFiltrados
-}
+    productosFiltrados,
+    deleteProduct // Agrega esta línea
+  };
+  

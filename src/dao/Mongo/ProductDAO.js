@@ -28,4 +28,8 @@ export default class ProductDAO {
         return productModel.find({ category: category });
       };
       
+      eliminarProducto = (productId) => {
+        return productModel.findByIdAndDelete(productId);
+      };
+
 }

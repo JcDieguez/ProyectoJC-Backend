@@ -2,7 +2,17 @@
     <h1>Bienvenid@, {{user.name}}</h1>
     <p>rol: {{user.role}}</p>
     <img src={{user.avatar}} >
-
+  <a href="/logout">
+    <button class="logoutBtn"
+      style="background-color: red; color: white; padding: 5px 10px; border: none; float: right;"onmouseover="this.style.backgroundColor='darkred'" onmouseout="this.style.backgroundColor='red'">Cerrar sesión</button></a>
+      <a href="/cart">
+    <button class="cartBtn" style="background-color: blue; color: white; padding: 5px 10px; border: none; float: right;" onmouseover="this.style.backgroundColor='darkblue'" onmouseout="this.style.backgroundColor='blue'">Ir alcarrito</button></a>
+     <a href="/">
+    <button class="cartBtn" style="background-color: blue; color: white; padding: 5px 10px; border: none; float: right;" onmouseover="this.style.backgroundColor='darkblue'" onmouseout="this.style.backgroundColor='blue'">Inicio</button></a>
+  <a href="http://localhost:8080/profile">
+    <button class="profileBtn"
+      style="background-color: green; color: white; padding: 5px 10px; border: none; float: right;"
+      onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'"> Mi Perfil</button></a>
     <br/>
     {{#if events}}
     <h3>Historial de actividades</h3>

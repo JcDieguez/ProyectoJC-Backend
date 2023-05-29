@@ -22,23 +22,12 @@ const cargaProductos = (req, res) => {
   res.render('cargaProductos')
 }
 
+
 const home = async (req, res) => {
   const categorys = [...new Set((await productService.getProductsAll()).map((product) => product.category))];
   let paginationData;
   let products;
-  if(req.params.category){
-    const category = req.params.category; 
-    const cartID = req.params.cartID;
-     products = await  productService.getProductsByCategoria(category);
-    const cart = await cartService.getCartById(cartID);
-    products = products.map(product =>{
-        const exists = cart?.products.some(v=>v._id.toString()===product._id.toString())
-        return {...product,isValidToAdd:!exists}
-    })
-   
-
-  }else{
-
+ 
     const page = req.query.page||1;
     const cartId = req.user.cart;
     const pagination = await productService.getProducts({},page);
@@ -55,7 +44,6 @@ const home = async (req, res) => {
        prevPage: pagination.prevPage,
        page: pagination.page
    }
-  }
   res.render('home',{products,categorys,css:'home', paginationData});
 };
 
@@ -63,38 +51,36 @@ const cart = async (req, res) => {
   const cart = await cartService.getCartById(req.user.cart._id,{populate:true});
   const name = req.user.name;
   const productos = cart.products?.map((product) => product._id);
+  const isAdmin = req.user.role === 'ADMIN';
+  const isUser = req.user.role === 'USER';
  
   res.render('cart', {
     productos,
-    name
+    name,
+    isAdmin,
+    isUser
   });
 };
 
 
-const homeFiltrados = (req, res) =>{
-  console.log('hoooo')
-  const {products, categorys} = req.body;
-  console.log( req.body)
+const homeFiltrados = (req, res) => {
+  let { products, categorys } = req.query;
+   products = JSON.parse(products).map(item => item._doc);
+   products = products.map(product =>{
+    const exists = req.user.cart.products.some(v=>v._id.toString()===product._id.toString())
+    return {...product,isValidToAdd:!exists}
+})
   res.render('homeFiltrados', {
-   products: products, categorys :categorys
+    products,
+    categorys: JSON.parse(categorys)
   });
 }
 
 
-
-/* router.post('/logout', (req, res) => {
-   req.session.destroy(err => {
-     if (err) {
-       console.log(err);
-       res.status(500).send('Error al cerrar sesión');
-     } else {
-       res.redirect('/login');
-     }
-   });
- }); 
- */
-
-
+const logout = (req, res) => {
+  res.clearCookie(process.env.JWT_COOKIE); // Eliminar la cookie de autenticación
+  res.redirect('/login'); // Redirigir al usuario al inicio de sesión
+};
 
 
 
@@ -105,5 +91,6 @@ export default {
   cargaProductos,
   home,
   cart,
-  homeFiltrados
+  homeFiltrados,
+  logout
 }

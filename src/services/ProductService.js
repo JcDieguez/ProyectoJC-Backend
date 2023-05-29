@@ -25,5 +25,12 @@ export default class ProductService {
         return await productDAO.getProductsByCategoria(category);
     }
     
-
-}
+    eliminarProducto = async (productId) => {
+      try {
+        const result = await productDAO.eliminarProducto(productId);
+        return result;
+      } catch (error) {
+        throw error;
+      }
+    };
+  }
