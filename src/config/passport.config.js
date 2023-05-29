@@ -1,6 +1,6 @@
 import passport from 'passport';
 import local from 'passport-local';
-import UsersService from "../services/UsersService.js";
+import { usersService } from '../dao/index.js';
 import { validatePassword } from '../utils.js';
 import GithubStrategy from 'passport-github2';
 import jwt from 'jsonwebtoken';
