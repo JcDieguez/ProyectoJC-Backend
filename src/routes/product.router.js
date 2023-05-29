@@ -7,6 +7,6 @@ import productController from "../controllers/product.controller.js";
 
 const router = Router();
 router.post('/',uploader.single('image'),productController.cargaProductos)
-router.get('/:category', productController.productosFiltrados)
+router.get('/:category/:cartID', productController.productosFiltrados)
 
 export default router;

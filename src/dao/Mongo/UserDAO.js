@@ -6,7 +6,11 @@ export default class Users {
     }
 
     getBy = (params) =>{
-        return userModel.findOne(params);
+        return userModel.findOne(params).lean();
+    }
+
+    getUserById = (id) =>{
+        return userModel.findById(id);
     }
 
     save = async (user) =>{

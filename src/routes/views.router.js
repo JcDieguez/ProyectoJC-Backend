@@ -7,10 +7,11 @@ const router = Router();
 
 router.get('/register',viewsController.register)
 router.get('/login',viewsController.login)
-router.post('/profile',executePolicies(["AUTHENTICATED"]), viewsController.profile);
+router.get('/profile',executePolicies(["AUTHENTICATED"]), viewsController.profile);
 router.get('/',executePolicies(["AUTHENTICATED"]),viewsController.home);
 router.get('/cargaProductos',executePolicies(["ADMIN"]) , viewsController.cargaProductos)
 router.get('/cart', executePolicies(["USER"]), viewsController.cart);
+
 //router.get('/users/:id', getUserById);
 
 

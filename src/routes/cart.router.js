@@ -7,6 +7,7 @@ const router = Router();
 
 router.get('/product/:productId', executePolicies(["USER"]), cartController.insertProductToCart);
 
+router.post('/purchase',executePolicies(['USER']),cartController.purchase)
 
 
 export default router;

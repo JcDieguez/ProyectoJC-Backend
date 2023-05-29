@@ -23,16 +23,16 @@ const cargaProductos = async(req,res)=>{
 
 const productosFiltrados = async(req,res) =>{
     const category = req.params.category; 
-    const products = await  productService.getProductsByCategoria(category);
+    const cartID = req.params.cartID;
+    var products = await  productService.getProductsByCategoria(category);
     const categorys = [...new Set((await productService.getProductsAll()).map((product) => product.category))];
-    console.log(req.user);
-    const cart = await cartService.getCartById(req.user.cart._id);
+    const cart = await cartService.getCartById(cartID);
     products = products.map(product =>{
         const exists = cart?.products.some(v=>v._id.toString()===product._id.toString())
         return {...product,isValidToAdd:!exists}
     })
    
-    res.render('home',{products,categorys,css:'home'});
+    res.render('homeFiltrados',{products,categorys,css:'home'});
 
 }
 

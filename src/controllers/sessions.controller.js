@@ -38,7 +38,6 @@ import config from '../config/config.js';
           return res.status(400).send({ status: "error", error: "Credenciales inválidas" });
         }
         const isValidPassword = await validatePassword(password, user.password);
-        console.log(isValidPassword)
         if (!isValidPassword) {
           return res.status(400).send({ status: "error", error: "Contraseña incorrecta" });
         }
@@ -53,7 +52,7 @@ import config from '../config/config.js';
             avatar:user.avatar || 'url genérica'
         };
         const token = await jwt.sign(userToken,process.env.JWT_SECRET,{expiresIn:"1d"});
-        res.cookie(process.env.JWT_COOKIE,token).send({status:"success",message:"logged in"})
+        res.cookie(process.env.JWT_COOKIE,token).send({userToken: userToken, token:token, status:"success",message:"logged in"})
       } catch (error) {
         res.status(500).send({ status: "error", error: "Error del servidor" });
       }

@@ -24,4 +24,8 @@ export default class UsersService {
   async getUserBy(username){
     await userDAO.getBy(username);
   }
+  async getUserById(id){
+    await userDAO.getUserById(id);
+  }
+  
 }

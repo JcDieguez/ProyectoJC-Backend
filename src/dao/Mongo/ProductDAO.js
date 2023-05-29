@@ -25,7 +25,7 @@ export default class ProductDAO {
     }
     
      getProductsByCategoria = (category) => {
-        return productModel.findOne({ category: category });
+        return productModel.find({ category: category });
       };
       
 }

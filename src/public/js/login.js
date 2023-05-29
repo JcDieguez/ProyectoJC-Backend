@@ -19,8 +19,8 @@ form.addEventListener('submit', evt => {
       throw new Error('Error al iniciar sesión');
     }
   }).then(data => {
-    localStorage.setItem('authToken', data.token);
-    localStorage.setItem('user', data.user);
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.userToken));
     window.location.href = '/';
   }).catch(error => {
     errorElement.textContent = error.message;

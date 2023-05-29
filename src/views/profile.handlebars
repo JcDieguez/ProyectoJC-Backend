@@ -1,0 +1,22 @@
+<div>
+    <h1>Bienvenid@, {{user.name}}</h1>
+    <p>rol: {{user.role}}</p>
+    <img src={{user.avatar}} >
+
+    <br/>
+    {{#if events}}
+    <h3>Historial de actividades</h3>
+    <ul>
+        {{#each events}}
+        <li>
+            <div>
+                <p>{{this.event}}</p>
+                <p>{{this.description}}</p>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+    {{else}}
+    <h3>Este usuario no ha hecho ninguna actividad en la plataforma</h3>
+    {{/if}}
+</div>
