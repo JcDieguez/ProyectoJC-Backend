@@ -1,27 +1,20 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 export default {
-  port: process.env.PORT || 8080,
-  db: {
-    url: process.env.MONGO_URI || process.env.MONGO_URL,
-    options: {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
+    app:{
+        ADMIN_USER : process.env.SUPERADMIN_EMAIL,
+        ADMIN_PWD : process.env.SUPERADMIN_PASSWORD,
+        PERSISTENCE: process.env.PERSISTENCE
     },
-  },
-  session: {
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  },
-  jwt: {
-    secret: process.env.JWT_SECRET,
-  },
-  twilio: {
-    accountSid: process.env.TWILIO_ACCOUNT_SID,
-    authToken: process.env.TWILIO_AUTH_TOKEN,
-  },
-};
+    mongo:{
+        URL:process.env.MONGO_URL
+    },
+    jwt:{
+        COOKIE:process.env.JWT_COOKIE,
+        SECRET:process.env.JWT_SECRET
+    },
+    twilio:{
+
+    },
+    nodemailer:{
+
+    }
+}

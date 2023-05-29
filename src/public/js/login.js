@@ -6,7 +6,7 @@ form.addEventListener('submit', evt => {
   const data = new FormData(form);
   const obj = {};
   data.forEach((value, key) => obj[key] = value);
-  fetch('/api/sessions/logintoken', {
+  fetch('/api/sessions/login', {
     method: 'POST',
     body: JSON.stringify(obj),
     headers: {
@@ -19,9 +19,9 @@ form.addEventListener('submit', evt => {
       throw new Error('Error al iniciar sesión');
     }
   }).then(data => {
-    localStorage.setItem('authToken', data.token);
-    localStorage.setItem('user', data.user);
-    window.location.href = '/welcome';
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.userToken));
+    window.location.href = '/';
   }).catch(error => {
     errorElement.textContent = error.message;
   });

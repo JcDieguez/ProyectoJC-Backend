@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="../public/css/home.css">
+
+<div>
+    {{#if products}}
+    <h1 class="titulo">Últimos productos agregados</h1>
+
+<select id="categorySelect" onchange="filterByCategory(this.value)">
+  <option value ="">Seleccione una categoría</option>
+  {{#each categorys}}
+    <option value="{{this}}">{{this}}</option>
+  {{/each}}
+</select>
+
+    <div class="container">
+        {{#each products}}
+        <div class="productCard">
+            <p>{{this.title}}</p>
+            <p>{{this.price}}</p>
+          <!--  <img class="productCardImg" src={{this.image}}> -->
+            {{#if this.isValidToAdd}}
+                 <a href="http://localhost:8080/api/cart/product/{{this._id}}"><button class="agregarBtn">Agregar al carrito</button></a>
+            {{else}}
+            <button class="disabledBtn" disabled>El producto ya está en el carrito</button>
+            {{/if}}
+        </div>
+        {{/each}}
+    </div>
+    <div>
+        {{#if paginationData.hasPrevPage}}
+        <a href="http://localhost:8080?page={{paginationData.prevPage}}"><button class="prevBtn">Anterior</button></a>
+        {{/if}}
+        <p>{{paginationData.page}}</p>
+        {{#if paginationData.hasNextPage}}
+        <a href="http://localhost:8080?page={{paginationData.nextPage}}"><button class="nextBtn">Siguiente</button></a>
+        {{/if}}
+    </div>
+    {{else}}
+    <h1>No hay productos disponibles</h1>
+    {{/if}}
+</div>
+<script src="/js/home.js"></script>

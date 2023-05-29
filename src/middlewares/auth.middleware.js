@@ -1,32 +1,20 @@
 import jwt from 'jsonwebtoken';
-import { UserModel } from '../dao/models/User.js';
 
-export async function authMiddleware(req, res, next) {
-  const authToken = req.headers.authorization;
 
-  if (!authToken) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
-  try {
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET);
-    const user = await UserModel.findById(decoded.id);
-
-    if (!user) {
-      return res.status(401).json({ error: 'Unauthorized' });
+export const executePolicies = (policies) =>{
+    return (req,res,next) =>{
+        if(policies[0]==="PUBLIC") return next();
+        const token = req.cookies[process.env.JWT_COOKIE];
+        if(!token) return res.redirect('/login');
+        try{
+            const user = jwt.verify(token,process.env.JWT_SECRET);
+            if(policies[0]==="AUTHENTICATED"||policies.includes(user.role.toUpperCase())){
+                req.user = user;
+                return next();
+            }
+            else res.redirect('/login');//O a una página que diga que no tengo permisos
+        }catch(error){
+            res.clearCookie(process.env.JWT_COOKIE).status(401).send({status:"error", error:"Not authenticated"})
+        }
     }
-
-    req.user = user;
-    next();
-  } catch (error) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-}
-
-export function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-
-  res.redirect('/login');
 }

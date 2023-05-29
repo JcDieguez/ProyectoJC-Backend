@@ -1,64 +1,20 @@
 import { Router } from 'express';
-import os from 'os';
-import path from 'path';
-import { renderEditProfile, updateProfile, getUserById } from '../controllers/user.controller.js';
-import Users from '../dao/Mongo/UsersContainer.js';
+import viewsController from '../controllers/views.controller.js';
+import { executePolicies } from "../middlewares/auth.middleware.js";
+import cartController from "../controllers/cart.controller.js";
 
-const __dirname = path.resolve();
 const router = Router();
 
-router.get('/register', (req, res) => {
-  res.render('register');
-});
+router.get('/register',viewsController.register)
+router.get('/login',viewsController.login)
+router.get('/profile',executePolicies(["AUTHENTICATED"]), viewsController.profile);
+router.get('/',executePolicies(["AUTHENTICATED"]),viewsController.home);
+router.get('/cargaProductos',executePolicies(["ADMIN"]) , viewsController.cargaProductos)
+router.get('/cart', executePolicies(["USER"]), viewsController.cart);
 
-router.get('/login', (req, res) => {
-  res.render('login');
-});
+//router.get('/users/:id', getUserById);
 
-router.get('/welcome', (req, res) => {
-  const userEmail = req.session.user.email;
-  const message = `¡Bienvenido, ${req.session.user.name}, ${req.session.user.lastName}!`;
 
-  res.render('welcome', { message, email: userEmail });
-});
-
-router.post('/logout', (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      console.log(err);
-      res.status(500).send('Error al cerrar sesión');
-    } else {
-      res.redirect('/login');
-    }
-  });
-});
-
-router.get('/info', (req, res) => {
-  const platform = os.platform();
-  const nodeVersion = process.version;
-  const memory = (process.memoryUsage().rss / 1024 / 1024).toFixed(2);
-  const path = process.cwd();
-  const pid = process.pid;
-  const projectPath = __dirname;
-
-  res.render('info', {
-    platform,
-    nodeVersion,
-    memory,
-    path,
-    pid,
-    projectPath,
-    args: process.argv
-  });
-});
-
-// Ruta para renderizar la vista de perfil
-router.get('/profile', renderEditProfile);
-
-// Ruta para procesar la actualización de perfil
-router.post('/profile', updateProfile);
-
-router.get('/users/:id', getUserById);
 
 export default router;
 
