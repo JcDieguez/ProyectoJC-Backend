@@ -1,5 +1,5 @@
 const button = document.getElementById('purchaseButton');
-let countdown = 8; // Tiempo en segundos
+let countdown = 8;
 
 button.addEventListener('click', async evt => {
   evt.preventDefault();
@@ -61,7 +61,7 @@ button.addEventListener('click', async evt => {
     countdownElement.textContent = `Redirigiendo al inicio en ${countdown} segundos`;
   }, 1000);
 
-  // Redirigir a la página principal después de 8 segundos
+  //Redirigir a la página principal después de 8 segundos
   setTimeout(() => {
     clearInterval(countdownInterval);
     countdownElement.remove();
@@ -77,9 +77,8 @@ deleteButtons.forEach(button => {
     try {
       const response = await fetch(`/api/cart/${productId}`, {
         method: 'DELETE'
-      });      
+      });
       if (response.ok) {
-        // Recargar la página después de eliminar el producto
         location.reload();
       } else {
         console.error('Error al eliminar el producto');

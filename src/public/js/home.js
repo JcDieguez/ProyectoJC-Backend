@@ -3,11 +3,11 @@ function filterByCategory(param) {
   category.value = param;
 
   if (param !== "all") {
-  
+
     category.value = param;
-      const url = `/?category=${encodeURIComponent((param))}`;
-      window.location.href = url;
-   
+    const url = `/?category=${encodeURIComponent((param))}`;
+    window.location.href = url;
+
   } else {
     category.value = param;
     window.location.href = '/';
@@ -22,9 +22,8 @@ deleteButtons.forEach(button => {
     try {
       const response = await fetch(`/api/product/${productId}`, {
         method: 'DELETE'
-      });      
+      });
       if (response.ok) {
-        // Recargar la página después de eliminar el producto
         location.reload();
       } else {
         console.error('Error al eliminar el producto');

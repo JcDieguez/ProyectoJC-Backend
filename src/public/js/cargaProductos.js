@@ -1,4 +1,3 @@
-
 const form = document.getElementById('formularioProducto');
 const inputElement = document.getElementById('fileAnterior') ;
 form.addEventListener('submit',async evt=>{

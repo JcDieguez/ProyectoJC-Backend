@@ -20,7 +20,7 @@ import { getUserById } from '../controllers/user.controller.js';
     return done(null, user);
   }));
   const options = {
-    secretOrKey: 'aspdiasc903ok1pkc', // reemplaza con tu clave secreta compartida
+    secretOrKey: 'aspdiasc903ok1pkc',
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
   };
   
@@ -78,6 +78,6 @@ import { getUserById } from '../controllers/user.controller.js';
   });
 }
 
-initializeStrategies(); // llamando a la función para inicializar las estrategias
+initializeStrategies();
 
 export default passport;

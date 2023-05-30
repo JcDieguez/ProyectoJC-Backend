@@ -37,21 +37,20 @@ const cargaProductos = async(req,res)=>{
 }
 
 
-
+}
 
 const deleteProduct = async (req, res) => {
-    const productId = req.params.productId;
-  
-    try {
-      const result = await productService.eliminarProducto(productId);
-      res.send({ status: "success", message: "Product deleted successfully" });
-    } catch (error) {
-      res.status(500).send({ status: "error", error: "Failed to delete product" });
-    }
-  };
-  
-  export default {
-    cargaProductos,
-    deleteProduct
-  };
-  
+  const productId = req.params.productId;
+
+  try {
+    const result = await productService.eliminarProducto(productId);
+    res.send({ status: "success", message: "Product deleted successfully" });
+  } catch (error) {
+    res.status(500).send({ status: "error", error: "Failed to delete product" });
+  }
+};
+
+export default {
+  cargaProductos,
+  deleteProduct
+};
