@@ -48,6 +48,7 @@ import config from '../config/config.js';
             cart: user.cart,
             name:`${user.first_name} ${user.last_name}`,
             role:user.role,
+            email: user.email,
             id:user._id,
             avatar:user.avatar || 'url genérica'
         };

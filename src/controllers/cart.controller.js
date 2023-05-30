@@ -66,6 +66,7 @@ const purchase = async(req,res) =>{
     let porductBD = await productService.getProductById(product._id)
     productosComprados += `<div> <h3>${porductBD.title}</h3> <h4>precio: $ ${porductBD.price}</h4> </div>` 
 };
+
    await transporter.sendMail({
     from: `Juan Cruz Dieguez eComerce <juancruzdieguez95@hotmail.com>`,
     to: ['juancruzdieguez95@hotmail.com', req.user.email],

@@ -25,6 +25,7 @@ button.addEventListener('click', async evt => {
   document.body.appendChild(alertElement);
 
   // Enviar solicitud fetch
+  console.log("llega aca")
   const response = await fetch('/api/cart/purchase', {
     method: 'POST'
   });

@@ -1,8 +1,6 @@
 import ProductService from '../services/ProductService.js'
-import CartService from '../services/CartService.js'
 
 const productService = new ProductService();
-const cartService = new CartService();
 
 const cargaProductos = async(req,res)=>{
     const file = req.file;
