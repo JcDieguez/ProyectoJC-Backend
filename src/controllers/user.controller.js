@@ -1,14 +1,14 @@
-import User from '../models/User.js'; // Importamos el modelo de usuario
+import User from '../models/User.js';
 
 
 export const getUserById = async (req, res) => {
-  const userId = req.params.id; // Obtener el ID del usuario desde los parámetros de la solicitud
+  const userId = req.params.id;
   try {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).send('Usuario no encontrado');
     }
-    res.send(user); // Devolver el usuario como respuesta
+    res.send(user);
   } catch (error) {
     console.error(error);
     res.status(500).send('Error al obtener el usuario');

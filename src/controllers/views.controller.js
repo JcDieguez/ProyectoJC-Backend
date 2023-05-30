@@ -13,9 +13,9 @@ const login = (req, res) => {
   res.render('login');
 };
 
-const profile = async(req,res)=>{
-  const history = await historiesService.getHistoryBy({user:req.user.id});
-  res.render('profile',{user:req.user,events:history?history.events:[]})
+const profile = async (req, res) => {
+  const history = await historiesService.getHistoryBy({ user: req.user.id });
+  res.render('profile', { user: req.user, events: history ? history.events : [] })
 }
 
 const cargaProductos = (req, res) => {
@@ -25,39 +25,39 @@ const cargaProductos = (req, res) => {
 
 const home = async (req, res) => {
   let paginationData;
-  const page = req.query.page||1;
+  const page = req.query.page || 1;
   const cartId = req.user.cart;
-  const {category} = req.query;
+  const { category } = req.query;
   let pagination;
- if(category !=undefined){
-  pagination = await productService.getProducts({category:(category.toString().toLowerCase())},page);
- }else{
-   pagination = await productService.getProducts({},page);
+  if (category != undefined) {
+    pagination = await productService.getProducts({ category: (category.toString().toLowerCase()) }, page);
+  } else {
+    pagination = await productService.getProducts({}, page);
   }
   paginationData = {
-    hasPrevPage:pagination.hasPrevPage,
-    hasNextPage:pagination.hasNextPage,
+    hasPrevPage: pagination.hasPrevPage,
+    hasNextPage: pagination.hasNextPage,
     nextPage: pagination.nextPage,
     prevPage: pagination.prevPage,
     page: pagination.page
-   }
-  let  products = pagination.docs;
+  }
+  let products = pagination.docs;
   const cart = await cartService.getCartById(cartId);
-  products = products.map(product =>{
-      const exists = cart?.products.some(v=>v._id.toString()===product._id.toString())
-      return {...product,isValidToAdd:!exists,isAdmin:req.user.role.toString().toLowerCase() === "admin"}
+  products = products.map(product => {
+    const exists = cart?.products.some(v => v._id.toString() === product._id.toString())
+    return { ...product, isValidToAdd: !exists, isAdmin: req.user.role.toString().toLowerCase() === "admin" }
   })
   let categorys = [...new Set((await productService.getProductsAll()).map((product) => product.category))];
-  res.render('home',{products,categorys,css:'home', paginationData});
+  res.render('home', { products, categorys, css: 'home', paginationData });
 };
 
 const cart = async (req, res) => {
-  const cart = await cartService.getCartById(req.user.cart._id,{populate:true});
+  const cart = await cartService.getCartById(req.user.cart._id, { populate: true });
   const name = req.user.name;
   const productos = cart.products?.map((product) => product._id);
   const isAdmin = req.user.role === 'ADMIN';
   const isUser = req.user.role === 'USER';
- 
+
   res.render('cart', {
     productos,
     name,
@@ -66,15 +66,10 @@ const cart = async (req, res) => {
   });
 };
 
-
-
-
 const logout = (req, res) => {
-  res.clearCookie(process.env.JWT_COOKIE); // Eliminar la cookie de autenticación
-  res.redirect('/login'); // Redirigir al usuario al inicio de sesión
+  res.clearCookie(process.env.JWT_COOKIE);
+  res.redirect('/login');
 };
-
-
 
 export default {
   login,

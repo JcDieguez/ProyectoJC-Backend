@@ -15,10 +15,8 @@ async function connectToMongoDB() {
 
 switch (persistence) {
   case 'MONGO':
-    const {default:MongoUser} = await import('./Mongo/UserDAO.js');
-   // const {default:MongoCart} = await import('./mongo/CartsDAO.js');   
-    
-   usersService = new MongoUser(await connectToMongoDB());
-   //cartsService = new MongoCart();
+    const { default: MongoUser } = await import('./Mongo/UserDAO.js');
+
+    usersService = new MongoUser(await connectToMongoDB());
     break;
 }
