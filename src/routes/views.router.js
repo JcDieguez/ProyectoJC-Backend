@@ -10,7 +10,6 @@ router.get('/profile',executePolicies(["AUTHENTICATED"]), viewsController.profil
 router.get('/',executePolicies(["AUTHENTICATED"]),viewsController.home);
 router.get('/cargaProductos',executePolicies(["ADMIN"]) , viewsController.cargaProductos)
 router.get('/cart', executePolicies(["USER"]), viewsController.cart);
-router.get('/homeFiltrados', executePolicies(["USER"]), viewsController.homeFiltrados);
 router.get('/logout', viewsController.logout);
 
 

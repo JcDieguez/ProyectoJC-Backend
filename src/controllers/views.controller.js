@@ -24,29 +24,31 @@ const cargaProductos = (req, res) => {
 
 
 const home = async (req, res) => {
-  const categorys = [...new Set((await productService.getProductsAll()).map((product) => product.category))];
   let paginationData;
-  let products;
- 
-    const page = req.query.page||1;
-    const cartId = req.user.cart;
-    const pagination = await productService.getProducts({},page);
-    products = pagination.docs;
-    const cart = await cartService.getCartById(cartId);
-    products = products.map(product =>{
-        const exists = cart?.products.some(v=>v._id.toString()===product._id.toString())
-        return {...product,isValidToAdd:!exists}
-    })
-    paginationData = {
-       hasPrevPage:pagination.hasPrevPage,
-       hasNextPage:pagination.hasNextPage,
-       nextPage: pagination.nextPage,
-       prevPage: pagination.prevPage,
-       page: pagination.page
+  const page = req.query.page||1;
+  const cartId = req.user.cart;
+  const {category} = req.query;
+  let pagination;
+ if(category !=undefined){
+  pagination = await productService.getProducts({category:(category.toString().toLowerCase())},page);
+ }else{
+   pagination = await productService.getProducts({},page);
+  }
+  paginationData = {
+    hasPrevPage:pagination.hasPrevPage,
+    hasNextPage:pagination.hasNextPage,
+    nextPage: pagination.nextPage,
+    prevPage: pagination.prevPage,
+    page: pagination.page
    }
-   let isAdmin = req.user.role.toString().toLowerCase() === "admin";
- 
-  res.render('home',{products,categorys,isAdmin:isAdmin,css:'home', paginationData});
+  let  products = pagination.docs;
+  const cart = await cartService.getCartById(cartId);
+  products = products.map(product =>{
+      const exists = cart?.products.some(v=>v._id.toString()===product._id.toString())
+      return {...product,isValidToAdd:!exists,isAdmin:req.user.role.toString().toLowerCase() === "admin"}
+  })
+  let categorys = [...new Set((await productService.getProductsAll()).map((product) => product.category))];
+  res.render('home',{products,categorys,css:'home', paginationData});
 };
 
 const cart = async (req, res) => {
@@ -65,18 +67,6 @@ const cart = async (req, res) => {
 };
 
 
-const homeFiltrados = (req, res) => {
-  let { products, categorys } = req.query;
-   products = JSON.parse(products).map(item => item._doc);
-   products = products.map(product =>{
-    const exists = req.user.cart.products.some(v=>v._id.toString()===product._id.toString())
-    return {...product,isValidToAdd:!exists}
-})
-  res.render('homeFiltrados', {
-    products,
-    categorys: JSON.parse(categorys)
-  });
-}
 
 
 const logout = (req, res) => {
@@ -93,6 +83,5 @@ export default {
   cargaProductos,
   home,
   cart,
-  homeFiltrados,
   logout
 }
