@@ -1,5 +1,6 @@
 # ProyectoJC Backend
 
+Introducción del proyecto.
 
 ## Tecnologías utilizadas
 
@@ -11,7 +12,7 @@
 
 ## Instalación
 
-1. Clona este repositorio: `git clone https://github.com/JcDieguez/ProyectoJC-Backend.git`
+1. Clona este repositorio: `git clone https://github.com/JcDieguez/ProyectoJC-Backend`
 2. Ve al directorio del proyecto: `cd ProyectoJC-Backend - cd src`
 3. Instala las dependencias: `npm install`
 
@@ -30,7 +31,7 @@
 
 ## Uso
 
-1. Ejecuta el comando npm start para iniciar el servidor backend.
+1. Ejecuta el comando node app.js para iniciar el servidor backend.
 2. Accede a la API utilizando http://localhost:8080/
 3. El usuario ADMIN para cargar un producto http://localhost:8080/cargaProducto
 
