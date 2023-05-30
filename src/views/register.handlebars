@@ -1,16 +1,16 @@
-<h1>Regístrate</h1>
-<form id="registerForm">
-    <label>Nombre</label>
-    <input name="first_name">
-    <label>Apellido</label>
-    <input name="last_name">
-    <label>Correo electrónico</label>
-    <input name="email">
-    <label>Contraseña</label>
-    <input type="password" name="password">
-    <input type="submit">
+<h1 style="text-align: center; color: #333;">Regístrate</h1>
+<form id="registerForm" style="max-width: 400px; margin: 0 auto;">
+    <label style="display: block; margin-bottom: 10px;">Nombre</label>
+    <input name="first_name" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
+    <label style="display: block; margin-bottom: 10px;">Apellido</label>
+    <input name="last_name" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
+<label style="display: block; margin-bottom: 10px;">Correo electrónico</label>
+<input name="email" type="email" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" required>
+    <label style="display: block; margin-bottom: 10px;">Contraseña</label>
+    <input type="password" name="password" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
+    <input type="submit" style="width: 100%; padding: 10px; background-color: #123c9e; color: #fff; border: none; border-radius: 3px; cursor: pointer;">
 </form>
 
-<p>¿Ya estás registrado? <a href="/login">Logueate :)</a></p>
+<p style="text-align: center; margin-top: 20px;">¿Ya estás registrado? <a href="/login" style="color: #333;">¡Inicia sesión! :)</a></p>
 
 <script src="/js/register.js"></script>

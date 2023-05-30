@@ -1,61 +1,80 @@
 <div>
   {{#if products}}
-  <h1 class="titulo" style="color: rgb(33, 99, 0); font-size: 24px;">Lista de productos</h1>
-  <a href="/logout">
-    <button class="logoutBtn"
-      style="background-color: red; color: white; padding: 5px 10px; border: none; float: right;"
-      onmouseover="this.style.backgroundColor='darkred'" onmouseout="this.style.backgroundColor='red'">Cerrar sesión</button></a>
-  <a href="http://localhost:8080/profile">
-    <button class="profileBtn"
-      style="background-color: green; color: white; padding: 5px 10px; border: none; float: right;"
-      onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'"> Mi Perfil</button></a>
-  <select id="categorySelect" onchange="filterByCategory(this.value)">
-    <option value="">Seleccione una categoría</option>
-    {{#each categorys}}
-    <option value="{{this}}">{{this}}</option>
-    {{/each}}
-    <option value="all">Todos los productos</option>
-  </select>
-  <a href="/cart">
-    <button class="cartBtn" style="background-color: blue; color: white; padding: 5px 10px; border: none;">Ir al
-      carrito</button>
-  </a>
-  <div class="container">
+  <h1 class="titulo" style="color: rgb(33, 99, 0); font-size: 24px; text-align: center;">Catalogo</h1>
+  <div style="display: flex; justify-content: flex-end;">
+    <a href="/logout">
+      <button class="logoutBtn"
+        style="background-color: red; color: white; padding: 5px 10px; border: none; margin-right: 10px;"
+        onmouseover="this.style.backgroundColor='darkred'" onmouseout="this.style.backgroundColor='red'">Cerrar sesión</button>
+    </a>
+    <a href="http://localhost:8080/profile">
+      <button class="profileBtn"
+        style="background-color: green; color: white; padding: 5px 10px; border: none; margin-right: 10px;"
+        onmouseover="this.style.backgroundColor='darkgreen'" onmouseout="this.style.backgroundColor='green'"> Mi
+        Perfil</button>
+    </a>
+    <a href="/cart">
+      <button class="cartBtn"
+        style="background-color: blue; color: white; padding: 5px 10px; border: none; margin-right: 10px;">Ir al
+        carrito</button>
+    </a>
+  </div>
+  <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+    <select id="categorySelect" onchange="filterByCategory(this.value)"
+      style="padding: 5px; border: 1px solid #ccc; border-radius: 3px; margin-right: 10px;">
+      <option value="">Seleccione una categoría</option>
+      {{#each categorys}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+      <option value="all">Todos los productos</option>
+    </select>
+  </div>
+  <div class="container" style="display: flex; flex-wrap: wrap; justify-content: center;">
     {{#each products}}
-    <div class="productCard" style="border: 1px solid black; padding: 10px; margin-bottom: 10px;">
-      <p style="font-weight: bold; margin-bottom: 5px;">{{this.title}}</p>
-      <p style="color: rgb(2, 4, 154); margin-bottom: 5px;">$ {{this.price}}</p>
-      <p style="margin-bottom: 5px;">{{this.description}}</p>
-      <img class="productCardImg" src={{this.image}} style="max-width: 200px; max-height: 200px; margin-bottom: 10px;">
-      
-      {{#if this.isAdmin}}
+    <div class="productCard"
+      style="border: 1px solid black; padding: 10px; margin: 10px; text-align: center; width: 200px;">
+      <p style="font-weight: bold; margin-bottom: 5px; font-size: 18px;">{{this.title}}</p>
+      <p style="color: rgb(2, 4, 154); margin-bottom: 5px; font-size: 16px;">$ {{this.price}}</p>
+      <p style="margin-bottom: 5px; font-size: 14px;">{{this.description}}</p>
+      <img class="productCardImg" src={{this.image}}
+        style="max-width: 150px; max-height: 150px; margin-bottom: 10px;">
+ {{#if this.isAdmin}}
         <!-- Botón de eliminar producto para el usuario ADMIN -->
         <button class="delete-button" data-product-id="{{this._id}}">Eliminar</button>
         <button class="modify-button" data-product-id="{{this._id}}">Modificar</button>
 
       {{/if}}
       {{#if this.isValidToAdd}}
-        <a href="http://localhost:8080/api/cart/product/{{this._id}}"><button class="agregarBtn"
-            style="background-color: rgb(9, 61, 0); color: white; ">Agregar al carrito</button></a>
+        <a href="http://localhost:8080/api/cart/product/{{this._id}}">
+          <button class="agregarBtn"
+            style="background-color: #2E7D32; color: white; padding: 5px 10px; border: none; margin-bottom: 5px;">Agregar
+            al carrito</button>
+        </a>
       {{else}}
         <button class="disabledBtn" disabled
-          style="background-color: gray; color: white; padding: 5px 10px; border: none;">El producto ya está en el
-          carrito</button>
+          style="background-color: #757575; color: white; padding: 5px 10px; border: none; margin-bottom: 5px;">El producto
+          ya está en el carrito</button>
       {{/if}}
     </div>
     {{/each}}
   </div>
-  {{#if paginationData.hasPrevPage}}
-  <a href="http://localhost:8080?page={{paginationData.prevPage}}"><button class="prevBtn"
-      style="background-color: blue; color: white; padding: 5px 10px; border: none;">Anterior</button></a>
-  {{/if}}
-  <p style="margin: 10px;">{{paginationData.page}}</p>
-  {{#if paginationData.hasNextPage}}
-  <a href="http://localhost:8080?page={{paginationData.nextPage}}"><button class="nextBtn"
-      style="background-color: blue; color: white; padding: 5px 10px; border: none;">Siguiente</button></a>
-  {{/if}}
+  <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">
+    {{#if paginationData.hasPrevPage}}
+    <a href="http://localhost:8080?page={{paginationData.prevPage}}">
+      <button class="prevBtn"
+        style="background-color: #2962FF; color: white; padding: 5px 10px; border: none; margin-right: 10px;">Anterior</button>
+    </a>
+    {{/if}}
+    <p style="margin: 10px;">{{paginationData.page}}</p>
+    {{#if paginationData.hasNextPage}}
+    <a href="http://localhost:8080?page={{paginationData.nextPage}}">
+      <button class="nextBtn"
+        style="background-color: #2962FF; color: white; padding: 5px 10px; border: none; margin-left: 10px;">Siguiente</button>
+    </a>
+    {{/if}}
+  </div>
   {{else}}
-  <h1 style="color: red;">No hay productos disponibles</h1>
+  <h1 style="color: red; text-align: center;">No hay productos disponibles</h1>
   {{/if}}
 </div>
 <script src="/js/home.js"></script>
