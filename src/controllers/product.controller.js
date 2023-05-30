@@ -37,8 +37,6 @@ const cargaProductos = async(req,res)=>{
 }
 
 
-}
-
 const deleteProduct = async (req, res) => {
   const productId = req.params.productId;
 
