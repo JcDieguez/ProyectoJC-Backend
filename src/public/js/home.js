@@ -13,3 +13,24 @@ function filterByCategory(param) {
     window.location.href = '/';
   }
 }
+
+const deleteButtons = document.querySelectorAll('.delete-button');
+deleteButtons.forEach(button => {
+  button.addEventListener('click', async () => {
+    const productId = button.dataset.productId;
+    try {
+      const response = await fetch(`/api/product/${productId}`, {
+        method: 'DELETE'
+      });      
+      if (response.ok) {
+        // Recargar la página después de eliminar el producto
+        location.reload();
+      } else {
+        console.error('Error al eliminar el producto');
+      }
+    } catch (error) {
+      console.error('Error al eliminar el producto', error);
+    }
+  });
+});
+

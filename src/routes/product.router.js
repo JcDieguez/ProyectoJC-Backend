@@ -6,7 +6,7 @@ import { executePolicies } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 router.post('/',uploader.single('image'),productController.cargaProductos)
-router.delete('/cart/:productId', executePolicies(["USER"]), productController.deleteProduct);
+router.delete('/:productId', executePolicies(["ADMIN"]), productController.deleteProduct);
 
 
 export default router;

@@ -24,10 +24,7 @@ export default class ProductDAO {
         return productModel.findById(id);
     }
     
-     getProductsByCategoria = (category) => {
-        return productModel.find({ category: category });
-      };
-      
+   
       eliminarProducto = (productId) => {
         return productModel.findByIdAndDelete(productId);
       };
