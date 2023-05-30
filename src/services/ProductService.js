@@ -29,4 +29,7 @@ export default class ProductService {
         throw error;
       }
     };
+    updateProduct = async(product) =>{
+      return productDAO.updateProduct(product);
+    }
   }

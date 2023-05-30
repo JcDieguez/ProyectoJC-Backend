@@ -15,6 +15,7 @@ function filterByCategory(param) {
 }
 
 const deleteButtons = document.querySelectorAll('.delete-button');
+const modifyButtons = document.querySelectorAll('.modify-button');
 deleteButtons.forEach(button => {
   button.addEventListener('click', async () => {
     const productId = button.dataset.productId;
@@ -34,3 +35,11 @@ deleteButtons.forEach(button => {
   });
 });
 
+modifyButtons.forEach(button => {
+  button.addEventListener('click', async () => {
+    const productId = button.dataset.productId;
+      const url = `/cargaProductos?productId=${encodeURIComponent((productId))}`;
+    window.location.href =url;
+  })
+
+});

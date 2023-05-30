@@ -29,4 +29,7 @@ export default class ProductDAO {
         return productModel.findByIdAndDelete(productId);
       };
 
+      updateProduct = (product => {
+        return productModel.findByIdAndUpdate(product.id, { $set: product });
+      })
 }

@@ -18,8 +18,24 @@ const profile = async(req,res)=>{
   res.render('profile',{user:req.user,events:history?history.events:[]})
 }
 
-const cargaProductos = (req, res) => {
-  res.render('cargaProductos')
+const cargaProductos = async (req, res) => {
+  const {productId} = req.query;
+  let productMod;
+  let product;
+  if(productId != undefined){
+    productMod = await productService.getProductById(productId);
+     product = {
+      _id: productMod._id,
+      title: productMod.title,
+      description: productMod.description,
+      code: productMod.code,
+      category: productMod.category,
+      price: productMod.price,
+      image: productMod.image
+  
+    }
+  }
+  res.render('cargaProductos',{product:product})
 }
 
 

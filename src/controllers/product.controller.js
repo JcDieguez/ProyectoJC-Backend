@@ -3,18 +3,36 @@ import ProductService from '../services/ProductService.js'
 const productService = new ProductService();
 
 const cargaProductos = async(req,res)=>{
-    const file = req.file;
-    const  {title,description,code,price,category} = req.body;
-    if(!title||!description||!code||!price) return res.status(400).send({status:"error",error:"Incomplete values"});
+  const productId = req.id;
+  
+  const file = req.file;
+  const  {id,fileAnterior, title,description,code,price,category} = req.body;
+  if(!title||!description||!code||!price) return res.status(400).send({status:"error",error:"Incomplete values"});
+  
+  let result;
+  if(id != ""){
     const product = {
+      id,
+      title,
+      description,
+      code,
+      price,
+      category,
+      image: file != undefined ?`${req.protocol}://${req.hostname}:${process.env.PORT}/img/${file?.filename}` : fileAnterior
+    }
+    console.log(product.image)
+     result = await productService.updateProduct(product)
+    }else{
+      const product = {
         title,
         description,
         code,
         price,
         category,
-        image:`${req.protocol}://${req.hostname}:${process.env.PORT}/img/${file.filename}`
+        image:`${req.protocol}://${req.hostname}:${process.env.PORT}/img/${file?.filename}`
+      }
+       result = await productService.cargaProductos(product)
     }
-    const result = await productService.cargaProductos(product)
     res.send({status:"success",payload:result})
 }
 

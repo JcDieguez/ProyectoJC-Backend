@@ -31,6 +31,8 @@
       {{#if this.isAdmin}}
         <!-- Botón de eliminar producto para el usuario ADMIN -->
         <button class="delete-button" data-product-id="{{this._id}}">Eliminar</button>
+        <button class="modify-button" data-product-id="{{this._id}}">Modificar</button>
+
       {{/if}}
       {{#if this.isValidToAdd}}
         <a href="http://localhost:8080/api/cart/product/{{this._id}}"><button class="agregarBtn"

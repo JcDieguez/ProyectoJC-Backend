@@ -25,13 +25,12 @@ button.addEventListener('click', async evt => {
   document.body.appendChild(alertElement);
 
   // Enviar solicitud fetch
-  console.log("llega aca")
   const response = await fetch('/api/cart/purchase', {
     method: 'POST'
   });
 
   const result = await response.json();
-  console.log(result);
+
 
   // Remover animación del botón
   button.style.transform = '';
